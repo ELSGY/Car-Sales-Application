@@ -3,6 +3,7 @@ package pages;
 import pages.FirstPage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +17,8 @@ public class Register implements ActionListener {
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
+
+        panel.setBackground(Color.lightGray);
 
         //Name
         JLabel label = new JLabel("Name");
@@ -83,6 +86,7 @@ public class Register implements ActionListener {
         register = new JButton("Register");
         register.setBounds(240, 260, 100,25);
         panel.add(register);
+        register.setForeground(Color.red);
 
         panel.setLayout(null);
         frame.setVisible(true);
@@ -93,8 +97,8 @@ public class Register implements ActionListener {
         if(back.isSelected())
         {
             frame.setVisible(false);
-            FirstPage backfp = new FirstPage();
-            backfp.startProgram();
+            FirstPage bfp = new FirstPage();
+            bfp.startProgram();
         }
     }
 }
