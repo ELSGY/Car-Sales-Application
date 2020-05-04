@@ -4,6 +4,7 @@ import menu.ClientMenu;
 import menu.SellerMenu;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,17 +13,13 @@ public class FirstPage implements ActionListener {
 
     private JLabel title,label,label2;
     private JTextField username,password;
-    private JButton login,register,clear;
+    private JButton login,reg,clear;
     private JCheckBox checkseller,checkclient;
     private ClientMenu client;
     private SellerMenu seller;
+    private Register register;
     private JPanel panel;
     private JFrame frame;
-
-    //Error
-    private JFrame error;
-    private JPanel perror;
-    private JLabel message;
 
     public void startProgram (){
 
@@ -33,6 +30,7 @@ public class FirstPage implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         panel.setLayout(null);
+        panel.setBackground(Color.lightGray);
 
 
         //pages.FirstPage title
@@ -69,18 +67,21 @@ public class FirstPage implements ActionListener {
         panel.add(clear);
         clear.addActionListener(this);
 
-        register= new JButton("Create an account");
-        register.setBounds(100,185,162,25);
-        panel.add(register);
+        reg= new JButton("Create an account");
+        reg.setBounds(100,185,162,25);
+        panel.add(reg);
+        reg.addActionListener(this);
 
         //Checkboxes
         checkclient=new JCheckBox("Client");
         checkclient.setBounds(96,110,60,25);
         panel.add(checkclient);
+        checkclient.setBackground(Color.lightGray);
 
         checkseller=new JCheckBox("Seller");
         checkseller.setBounds(160,110,60,25);
         panel.add(checkseller);
+        checkseller.setBackground(Color.lightGray);
 
         frame.setVisible(true);
     }
@@ -90,35 +91,47 @@ public class FirstPage implements ActionListener {
         String user = username.getText();
         String pass = password.getText();
 
-        if(user.equals("admin") && pass.equals("admin") && checkclient.isSelected() && !checkseller.isSelected()){
-            frame.setVisible(false);
-            ClientMenu client=new ClientMenu();
-            client.clientmenu();
+    //Citire date din fisier .json
+
+
+
+    //Actiuni pentru butonul Log In
+    if(e.getSource()==login) {
+        if (user.equals("admin") && pass.equals("admin") && checkclient.isSelected() && !checkseller.isSelected()) {
+        frame.setVisible(false);
+        ClientMenu client = new ClientMenu();
+        client.menu();
 
         }
-        else if(user.equals("admin") && pass.equals("admin") && !checkclient.isSelected() && checkseller.isSelected()){
-            frame.setVisible(false);
-            SellerMenu client=new SellerMenu();
-            client.sellermenu();
+        if (user.equals("admin") && pass.equals("admin") && !checkclient.isSelected() && checkseller.isSelected()) {
+        frame.setVisible(false);
+        SellerMenu client = new SellerMenu();
+        client.sellermenu();
 
         }
-       else if((user!=null && pass!=null && checkclient.isSelected() && !checkseller.isSelected()) || (user!=null && pass!=null && !checkclient.isSelected() && checkseller.isSelected()))
-        {
-            error=new JFrame();
-            perror=new JPanel();
+        if (( checkclient.isSelected() && checkseller.isSelected())){
 
-            error.setSize(150,150);
-            error.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            error.add(perror);
-            perror.setLayout(null);
-
-            message = new JLabel("Invalid");
-            message.setBounds(45,33,80,25);
-            perror.add(message);
-
-            error.setVisible(true);
+        JOptionPane.showMessageDialog(frame,"Invalid");
         }
-
 
     }
+    //Actiuni pentru butonul Create an account
+    if(e.getSource()==reg){
+        frame.setVisible(false);
+        register=new Register();
+        register.menu();
+
+    }
+    //Actiuni pentru butonul Clear
+    if(e.getSource()==clear){
+        password.setText(null);
+        username.setText(null);
+        checkclient.setSelected(false);
+        checkseller.setSelected(false);
+    }
+
+    }
+
+
+
 }

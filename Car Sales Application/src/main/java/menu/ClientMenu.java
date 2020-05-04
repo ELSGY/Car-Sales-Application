@@ -12,8 +12,9 @@ public class ClientMenu implements ActionListener {
     private JFrame frame;
     private JLabel title;
     private JButton vcars,fapp,logout;
+    private FirstPage bck;
 
-    public void clientmenu() {
+    public void menu() {
 
         panel = new JPanel();
         frame = new JFrame();
@@ -47,7 +48,8 @@ public class ClientMenu implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 
-        if(logout.isSelected()){
+        //Actiuni pentru butonul Log Out
+        if(e.getSource()==logout){
             frame.setVisible(false);
             FirstPage back=new FirstPage();
             back.startProgram();

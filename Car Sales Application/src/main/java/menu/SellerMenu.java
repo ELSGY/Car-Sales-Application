@@ -46,7 +46,6 @@ public class SellerMenu implements ActionListener{
         vreq.setBounds(20,170,125,25);
         panel.add(vreq);
 
-
         logout= new JButton("Log out");
         logout.setBounds(200,200,80,25);
         panel.add(logout);
@@ -60,11 +59,30 @@ public class SellerMenu implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
 
-        if(logout.isSelected()){
+        //Actiuni pentru butonul Log Out
+        if(e.getSource()==logout){
             frame.setVisible(false);
             FirstPage back=new FirstPage();
             back.startProgram();
         }
+        //Actiuni pentru butonul View reguests
+        if(e.getSource()==vreq){
 
+        }
+
+        //Actiuni pentru butonul Edit Car
+        if(e.getSource()==ecar){
+
+        }
+
+        //Actiuni pentru butonul Add Car
+        if(e.getSource()==acar){
+
+        }
+
+        //Actiuni pentru butonul View Cars
+        if(e.getSource()==vcars){
+
+        }
     }
 }
