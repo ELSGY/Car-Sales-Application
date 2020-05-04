@@ -3,6 +3,7 @@ package menu;
 import pages.FirstPage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,18 +25,21 @@ public class ClientMenu implements ActionListener {
         frame.add(panel);
         panel.setLayout(null);
 
+        panel.setBackground(Color.LIGHT_GRAY);
+
         //Client Menu
-        title = new JLabel("Menu");
-        title.setBounds(150,20,80,25);
+        title = new JLabel("Menu",SwingConstants.CENTER);
+        title.setBounds(100,10,80,25);
+        title.setFont(new Font(title.getFont().getName(), Font.BOLD, 18));
         panel.add(title);
 
         //Options
         vcars= new JButton("Available cars");
-        vcars.setBounds(20,50,135,25);
+        vcars.setBounds(40,50,150,25);
         panel.add(vcars);
 
         fapp= new JButton("Fill the application");
-        fapp.setBounds(20,90,135,25);
+        fapp.setBounds(40,90,150, 25);
         panel.add(fapp);
 
         logout= new JButton("Log out");
