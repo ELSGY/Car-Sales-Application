@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.text.ParseException;
-import java.util.Iterator;
 
 
 public class Register implements ActionListener {
@@ -78,11 +76,6 @@ public class Register implements ActionListener {
         password = new JPasswordField(40);
         password.setBounds(110,220, 165, 25);
         panel.add(password);
-
-        //Client/Seller
-        //JLabel label6 = new JLabel("Function");
-        //label6.setBounds(10, 220, 80, 25);
-        //panel.add(label6);
 
 
         function = new JComboBox();
