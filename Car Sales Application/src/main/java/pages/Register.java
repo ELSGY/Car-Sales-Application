@@ -1,29 +1,26 @@
 package pages;
-
-import jdk.incubator.jpackage.internal.PackagerException;
-import jdk.nashorn.internal.parser.JSONParser;
-import org.json.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-
 import java.io.FileReader;
 import java.io.IOException;
-import org.json.simple.parse.ParseException;
-import org.json.simple.parser.JSONParser;
+
+import org.json.simple.JSONArray;
+import org.json.JSONObject;
+import org.json.simple.parser.*;
+
 
 public class Register implements ActionListener {
+
    private JButton back,register;
    private JFrame frame;
-   private JPanel panel;
    private JTextField username,password,name,email,age;
    private JComboBox function;
-   private JLabel title;
 
     public void menu() {
-        panel = new JPanel();
+        JPanel panel = new JPanel();
         frame = new JFrame("Register");
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +30,7 @@ public class Register implements ActionListener {
         panel.setBackground(Color.lightGray);
 
         //Register
-        title = new JLabel("Register",SwingConstants.CENTER);
+        JLabel title = new JLabel("Register", SwingConstants.CENTER);
         title.setBounds(80,10,200,40);
         title.setFont(new Font(title.getFont().getName(), Font.BOLD, 18));
         panel.add(title);
@@ -112,8 +109,25 @@ public class Register implements ActionListener {
         //Actiuni pentru butonul Register
         if(e.getSource()==register)
         {
-
             JSONObject obj = new JSONObject();
+            Object p;
+            JSONParser parser = new JSONParser();
+            JSONArray list = new JSONArray();
+
+            //Copiere continut deja existent cu Parser
+            try{
+                FileReader readFile = new FileReader("src/main/java/data/data.json");
+                BufferedReader read = new BufferedReader(readFile);
+                p = parser.parse(read);
+                if(p instanceof JSONArray)
+                {
+                   list =(JSONArray)p;
+                }
+            } catch (ParseException | IOException ex) {
+                ex.printStackTrace();
+            }
+
+            //Adaugare continut nou
             obj.put("name",name.getText());
             obj.put("email",email.getText());
             obj.put("username",username.getText());
@@ -121,21 +135,20 @@ public class Register implements ActionListener {
             obj.put("password",password.getText());
             obj.put("function",(String)function.getSelectedItem());
 
-            JSONArray list = new JSONArray();
-            list.put(obj);
+            list.add(obj);
 
+            //Scriere in fisier continut nou
             try{
-                File fis=new File("src/main/java/data/data.json");
-                FileWriter fw=new FileWriter(fis,true);
-                fw.write(list.toString());
-                fw.flush();
+                File file=new File("src/main/java/data/data.json");
+                FileWriter fw=new FileWriter(file.getAbsoluteFile());
+                fw.write(list.toJSONString());
+                //fw.flush();
                 fw.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
 
         }
-
 
         //Actiuni pentru butonul Back
         if(e.getSource()==back)
@@ -147,38 +160,4 @@ public class Register implements ActionListener {
 
     }
 
-
-    public void addUser(String username, String password, String TypeOfAccount){
-        JSONObject data = new JSONObject();
-        JSONParser parser = new JSONParser();
-        Object p;
-        JSONArray arrayToParse = new JSONArray();
-        try{
-            FileReader readFile = new FileReader("data.json");
-            BufferedReader read = new BufferedReader(readFile);
-                p = parser.parse(read);
-                if(p instanceof JSONArray)
-                {
-                    arrayToParse =(JSONArray)p;
-                }
-        }catch(IOException e)
-        {
-            e.printStackTrace();
-        }catch (PackagerException e){
-            e.printStackTrace();
-        }
-        data.put("username", username);
-        data.put("password", password);
-        data.put("typeOfAccount", TypeOfAccount);
-        arrayToParse.add(data);
-        try{
-            File file = new File("data.json");
-            FileWriter fisier = new FileWriter(file.getAbsoluteFile());
-            fisier.write(arrayToParse.toString());
-            fisier.close();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-    }
 }

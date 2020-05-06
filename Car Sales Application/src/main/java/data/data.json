@@ -1,2 +1,18 @@
-[{"password":"admin","function":"Seller","name":"Flavius","email":"cojocariu.flavius23@gmail.com","age":"20","username":"admin"},
-{"password":"admin","function":"Client","name":"Flavius","email":"cojocariu.flavius23@gmail.com","age":"20","username":"admin"}]
+[
+  {
+    "age": "20",
+    "email": "cojocariu.flavius23@gmail.com",
+    "function": "Client",
+    "name": "Flavius",
+    "password": "admin",
+    "username": "admin"
+  },
+  {
+    "age": "20",
+    "email": "ale.ciui31@gmail.com",
+    "function": "Client",
+    "name": "Alexandra",
+    "password": "admin",
+    "username": "admin"
+  }
+]
