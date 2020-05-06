@@ -1,5 +1,7 @@
 package pages;
 
+import jdk.incubator.jpackage.internal.PackagerException;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.json.*;
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+import java.io.FileReader;
+import java.io.IOException;
+import org.json.simple.parse.ParseException;
+import org.json.simple.parser.JSONParser;
 
 public class Register implements ActionListener {
    private JButton back,register;
@@ -137,6 +143,41 @@ public class Register implements ActionListener {
             frame.setVisible(false);
             FirstPage bfp = new FirstPage();
             bfp.startProgram();
+        }
+
+    }
+
+
+    public void addUser(String username, String password, String TypeOfAccount){
+        JSONObject data = new JSONObject();
+        JSONParser parser = new JSONParser();
+        Object p;
+        JSONArray arrayToParse = new JSONArray();
+        try{
+            FileReader readFile = new FileReader("data.json");
+            BufferedReader read = new BufferedReader(readFile);
+                p = parser.parse(read);
+                if(p instanceof JSONArray)
+                {
+                    arrayToParse =(JSONArray)p;
+                }
+        }catch(IOException e)
+        {
+            e.printStackTrace();
+        }catch (PackagerException e){
+            e.printStackTrace();
+        }
+        data.put("username", username);
+        data.put("password", password);
+        data.put("typeOfAccount", TypeOfAccount);
+        arrayToParse.add(data);
+        try{
+            File file = new File("data.json");
+            FileWriter fisier = new FileWriter(file.getAbsoluteFile());
+            fisier.write(arrayToParse.toString());
+            fisier.close();
+        }catch(IOException e){
+            e.printStackTrace();
         }
 
     }
