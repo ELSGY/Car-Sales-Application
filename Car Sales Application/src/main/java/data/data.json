@@ -1,18 +1,3 @@
-[
-  {
-    "age": "20",
-    "email": "cojocariu.flavius23@gmail.com",
-    "function": "Client",
-    "name": "Flavius",
-    "password": "admin",
-    "username": "admin"
-  },
-  {
-    "age": "20",
-    "email": "ale.ciui31@gmail.com",
-    "function": "Client",
-    "name": "Alexandra",
-    "password": "admin",
-    "username": "admin"
-  }
-]
+[{"password":"admin","function":"Client","name":"Flavius","age":"20","email":"cojocariu.flavius23@gmail.com","username":"admin"},
+  {"password":"admin","function":"Client","name":"Alexandra","age":"20","email":"ale.ciui31@gmail.com","username":"admin"},
+  {"password":"adm","function":"Seller","name":"wdawd","email":"fafea","age":"20","username":"adm"}]

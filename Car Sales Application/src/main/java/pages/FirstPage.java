@@ -3,25 +3,32 @@ package pages;
 import menu.ClientMenu;
 import menu.SellerMenu;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
 
 
 public class FirstPage implements ActionListener {
 
-    private JLabel title,label,label2;
     private JTextField username,password;
     private JButton login,reg,clear;
     private JCheckBox checkseller,checkclient;
-    private ClientMenu client;
-    private SellerMenu seller;
-    private Register register;
-    private JPanel panel;
+
     private JFrame frame;
 
     public void startProgram (){
+
+        JLabel title,label,label2;
+        JPanel panel;
 
         panel=new JPanel();
         frame=new JFrame();
@@ -87,34 +94,92 @@ public class FirstPage implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+         Register register;
+         int ok=0;
 
         String user = username.getText();
         String pass = password.getText();
+        String function;
 
     //Citire date din fisier .json
 
-
+        JSONParser parser = new JSONParser();
+        JSONObject compare = new JSONObject();
+        Object p;
+        JSONArray array = new JSONArray();
 
     //Actiuni pentru butonul Log In
-    if(e.getSource()==login) {
-        if (user.equals("admin") && pass.equals("admin") && checkclient.isSelected() && !checkseller.isSelected()) {
-        frame.setVisible(false);
-        ClientMenu client = new ClientMenu();
-        client.menu();
+        if(e.getSource()==login) {
+            if ((checkclient.isSelected() && checkseller.isSelected()) || (!checkclient.isSelected() && !checkseller.isSelected())) {
 
+                JOptionPane.showMessageDialog(frame, "Invalid");
+            }
+            else {
+                try {
+                    FileReader readFile = new FileReader("src/main/java/data/data.json");
+                    BufferedReader read = new BufferedReader(readFile);
+                    p = parser.parse(read);
+                    if (p instanceof JSONArray) {
+                        array = (JSONArray) p;
+                    }
+                } catch (ParseException | IOException parseException) {
+                    parseException.printStackTrace();
+                }
+              // System.out.println(array.toString());
+
+                compare.put("username", user);
+                compare.put("password", pass);
+
+                if (checkclient.isSelected()) {
+                    function = checkclient.getText();
+                } else {
+                    function = checkseller.getText();
+                }
+
+                compare.put("function", function);
+
+              //  System.out.println(compare.toString());
+
+                Iterator<JSONObject> itr = array.iterator();
+
+                while(itr.hasNext()) {
+                    JSONObject obj = itr.next();
+
+                    System.out.println(compare.toString());
+                    System.out.println(obj.toString());
+
+                    if (obj.get("password").equals(compare.get("password")) && obj.get("function").equals(compare.get("function")) && obj.get("username").equals(compare.get("username"))) {
+                        frame.setVisible(false);
+                        ok=1;
+
+                        if (checkclient.isSelected()) {
+                            ClientMenu client;
+                            client = new ClientMenu();
+                            client.menu();
+                            break;
+                        }
+
+                        if (checkseller.isSelected()) {
+                            SellerMenu seller;
+                            seller = new SellerMenu();
+                            seller.sellermenu();
+                            break;
+                        }
+
+
+
+                    }
+
+                }
+                if(ok == 0) {
+                    JOptionPane.showMessageDialog(frame, "Invalid");
+                }
+
+
+            }
         }
-        if (user.equals("admin") && pass.equals("admin") && !checkclient.isSelected() && checkseller.isSelected()) {
-        frame.setVisible(false);
-        SellerMenu client = new SellerMenu();
-        client.sellermenu();
 
-        }
-        if (( checkclient.isSelected() && checkseller.isSelected())){
 
-        JOptionPane.showMessageDialog(frame,"Invalid");
-        }
-
-    }
     //Actiuni pentru butonul Create an account
     if(e.getSource()==reg){
         frame.setVisible(false);
